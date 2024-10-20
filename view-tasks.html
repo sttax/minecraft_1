@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ver Tarefas</title>
+  <style>
+    body {
+      background-image: url("4k.jpg");
+      background-size: cover;
+      font-family: sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      color: #fff;
+      background-attachment: fixed;
+      background-repeat: no-repeat;
+    }
+
+    .container {
+      background-color: rgba(0, 0, 0, 0.7);
+      padding: 30px;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      text-align: center;
+      max-width: 600px;
+      width: 100%;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      font-size: 24px;
+    }
+
+    .task {
+      background-color: rgba(255, 255, 255, 0.2);
+      border: 1px solid #fff;
+      padding: 15px;
+      margin: 10px 0;
+      border-radius: 5px;
+      text-align: left;
+    }
+
+    .task.completed {
+      border-color: #00ff00;
+      color: #00ff00;
+    }
+
+    .links {
+      margin-top: 20px;
+    }
+
+    .links a {
+      color: #fff;
+      text-decoration: none;
+      margin: 0 10px;
+      display: inline-block;
+    }
+
+    .links a:hover {
+      color: #ff69b4;
+    }
+  </style>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>Tarefas Atribuídas</h1>
+    <div id="tasks"></div>
+    <div class="links">
+      <a href="panel.html">Voltar ao Painel</a>
+    </div>
+  </div>
+
+  <script>
+    // Configuração do Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyDG8aRL5AtR1dhetKR98-o3tzacxUH9PZ8",
+      authDomain: "minecraft-5b0ce.firebaseapp.com",
+      projectId: "minecraft-5b0ce",
+      storageBucket: "minecraft-5b0ce.appspot.com",
+      messagingSenderId: "217153186475",
+      appId: "1:217153186475:web:393fd9c179cb25c090e5ee"
+    };
+
+    // Inicializando o Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    // Função para exibir tarefas atribuídas ao usuário
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        // Recupera tarefas atribuídas ao usuário
+        db.collection("tasks")
+          .where("assignedTo", "==", user.email)
+          .get()
+          .then((querySnapshot) => {
+            const tasksDiv = document.getElementById("tasks");
+            if (querySnapshot.empty) {
+              tasksDiv.innerHTML = "<p>Você não tem tarefas atribuídas.</p>";
+              return;
+            }
+
+            querySnapshot.forEach((doc) => {
+              const taskData = doc.data();
+              const taskElement = document.createElement("div");
+              taskElement.className = "task" + (taskData.completed ? " completed" : "");
+              taskElement.innerText = taskData.task + (taskData.completed ? " (Concluída)" : "");
+              tasksDiv.appendChild(taskElement);
+            });
+          })
+          .catch((error) => {
+            console.error("Erro ao recuperar tarefas: ", error);
+          });
+      } else {
+        // Se não estiver autenticado, redirecionar para a página de login
+        window.location.href = "login.html"; // Altere para o nome do seu arquivo de login
+      }
+    });
+  </script>
+</body>
+</html>

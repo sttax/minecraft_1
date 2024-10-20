@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cosméticos para Pets</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      overflow: hidden; /* Remove barras de rolagem */
+      color: #333;
+    }
+
+    /* Estilo do vídeo */
+    .video-background {
+      position: fixed; /* Fixa o vídeo no fundo */
+      top: 50%;
+      left: 50%;
+      min-width: 100%; /* Garante que o vídeo cubra toda a tela */
+      min-height: 100%;
+      width: auto; /* Mantém a proporção do vídeo */
+      height: auto; /* Mantém a proporção do vídeo */
+      z-index: -1; /* Coloca o vídeo atrás de outros elementos */
+      transform: translate(-50%, -50%); /* Centraliza o vídeo */
+    }
+
+    .container {
+      display: flex;
+      flex-wrap: wrap; 
+      height: auto; 
+      padding: 20px;
+    }
+
+    .sidebar {
+      width: 220px;
+      background-color: rgba(52, 58, 64, 0.8);
+      color: #fff;
+      padding: 20px;
+      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .sidebar a {
+      display: block;
+      padding: 12px 15px;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 4px;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+      margin-bottom: 10px;
+    }
+
+    .sidebar a:hover {
+      background-color: #495057;
+      transform: translateX(5px);
+    }
+
+    .main {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .card {
+      background-color: rgba(255, 255, 255, 0.9);
+      border-radius: 8px;
+      padding: 20px;
+      margin: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+      width: calc(30% - 20px); 
+      box-sizing: border-box; 
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    .card-title {
+      font-size: 1.5em;
+      margin-bottom: 10px;
+      color: #007bff;
+    }
+
+    .product-info {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .product-info .product-image {
+      width: 100px;
+      height: 100px;
+      border-radius: 10px;
+      margin-right: 15px;
+      border: 2px solid #007bff;
+      transition: border-color 0.3s ease;
+    }
+
+    .product-info .product-name {
+      font-size: 1.5em;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .product-info .product-description {
+      font-size: 1em;
+      color: #666;
+    }
+
+    .button {
+      background-color: #007bff;
+      border: none;
+      color: white;
+      padding: 10px 20px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .button:hover {
+      background-color: #0056b3;
+      transform: translateY(-2px);
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 180px;
+      }
+
+      .card {
+        width: calc(45% - 20px);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .card {
+        width: calc(100% - 20px);
+      }
+    }
+  </style>
+</head>
+<body>
+  <video class="video-background" autoplay loop muted>
+    <source src="background-video.mp4" type="video/mp4">
+    Seu navegador não suporta o elemento de vídeo.
+  </video>
+
+  <div class="container">
+    <div class="sidebar">
+      <a href="Dashboard.html">Dashboard</a>
+    </div>
+    <div class="main">
+      <div class="card">
+        <h2 class="card-title">Textura De PvP</h2>
+        <div class="product-info">
+          <img src="textura.png" class="product-image" alt="Imagem do Produto">
+          <div>
+            <span class="product-name">Nico Fruit</span>
+            <p class="product-description">Bonita e dá +fps.</p>
+          </div>
+        </div>
+        <button class="button" onclick="window.location.href='link_para_baixar_textura.zip';">Clique aqui para baixar a textura do Minecraft  </button>
+      </div>
+
+      <div class="card">
+        <h2 class="card-title">Textura De Bed war</h2>
+        <div class="product-info">
+          <img src="textura2.png" class="product-image" alt="Imagem do Produto">
+          <div>
+            <span class="product-name">MOONFALL</span>
+            <p class="product-description">Bonita e dá +fps.</p>
+          </div>
+        </div>
+        <button class="button" onclick="window.location.href='link_para_baixar_textura2.zip';">Clique aqui para baixar a textura do Minecraft  </button>
+      </div>
+
+      <div class="card">
+        <h2 class="card-title">Perfume para cães</h2>
+        <div class="product-info">
+          <img src="textura3.png" class="product-image" alt="Imagem do Produto">
+          <div>
+            <span class="product-name">Cão Feliz</span>
+            <p class="product-description">Perfume para cães.</p>
+          </div>
+        </div>
+        <button class="button" onclick="window.location.href='link_para_baixar_perfume.zip';">Clique aqui para baixar a textura do Minecraft  </button>
+      </div>
+
+      <div class="card">
+        <h2 class="card-title">Coleira Estilosa</h2>
+        <div class="product-info">
+          <img src="textura4.png" class="product-image" alt="Imagem do Produto">
+          <div>
+            <span class="product-name">Coleira Estilosa</span>
+            <p class="product-description">Para gatos estilosos.</p>
+          </div>
+        </div>
+        <button class="button" onclick="window.location.href='link_para_baixar_coleira.zip';">Clique aqui para baixar a textura do Minecraft </button>
+      </div>
+
+      <div class="card">
+        <h2 class="card-title">Brinquedo de Pelúcia</h2>
+        <div class="product-info">
+          <img src="textura5.png" class="product-image" alt="Imagem do Produto">
+          <div>
+            <span class="product-name">Brinquedo de Pelúcia</span>
+            <p class="product-description">Para horas de diversão.</p>
+          </div>
+        </div>
+        <button class="button" onclick="window.location.href='link_para_baixar_brinquedo.zip';">Clique aqui para baixar a textura do Minecraft </button>
+      </div>
+
+      <div class="card">
+        <h2 class="card-title">Ração Premium</h2>
+        <div class="product-info">
+          <img src="textura6.png" class="product-image" alt="Imagem do Produto">
+          <div>
+            <span class="product-name">Ração Premium</span>
+            <p class="product-description">Saudável e nutritiva.</p>
+          </div>
+        </div>
+        <button class="button" onclick="window.location.href='link_para_baixar_racao.zip';">Clique aqui para baixar a textura do Minecraft </button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

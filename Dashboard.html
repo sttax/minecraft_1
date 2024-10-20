@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      background-color: #333; /* Fallback background color */
+      color: #333;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .background-video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+    }
+
+    .container {
+      display: flex;
+      height: 100vh;
+      transition: all 0.3s ease;
+      position: relative;
+      z-index: 1;
+    }
+
+    .sidebar {
+      width: 220px;
+      background-color: rgba(52, 58, 64, 0.8);
+      color: #fff;
+      padding: 20px;
+      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .sidebar a {
+      display: block;
+      padding: 12px 15px;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 4px;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+      margin-bottom: 10px;
+    }
+
+    .sidebar a:hover {
+      background-color: #495057;
+      transform: translateX(5px);
+    }
+
+    .main {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+    }
+
+    .card {
+      background-color: rgba(255, 255, 255, 0.9);
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    .card-title {
+      font-size: 1.5em;
+      margin-bottom: 10px;
+      color: #007bff;
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .user-info .user-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      margin-right: 15px;
+      border: 2px solid #ebebeb;
+      transition: border-color 0.3s ease;
+    }
+
+    .user-info .user-name {
+      font-size: 1.5em;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .user-info .user-email {
+      font-size: 1em;
+      color: #666;
+    }
+
+    .button {
+      background-color: #007bff;
+      border: none;
+      color: white;
+      padding: 10px 20px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .button:hover {
+      background-color: #0056b3;
+      transform: translateY(-2px);
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 180px;
+      }
+
+      .container {
+        flex-direction: column;
+      }
+    }
+  </style>
+  <!-- Importando o SDK do Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js"></script>
+</head>
+<body>
+  <video class="background-video" autoplay muted loop>
+    <source src="background-video.mp4" type="video/mp4">
+    Seu navegador não suporta o elemento de vídeo.
+  </video>
+
+  <audio id="background-music" autoplay loop>
+    <source src="C418.mp3" type="audio/mpeg">
+    Seu navegador não suporta o elemento de áudio.
+  </audio>
+
+  <div class="container">
+    <div class="sidebar">
+      <a href="cosméticos.html">Cosméticos</a>
+      <a href="textura.html">Textura</a>
+      <a href="sobre-nois.html">sobre nos</a>
+      
+     
+      <span id="admin-links" style="display: none;">
+      
+      </span>
+    </div>
+    <div class="main">
+      <div class="card">
+        <h2 class="card-title">Bem Vindo</h2>
+        <div class="user-info">
+          <img src="mdb.png" class="user-avatar" alt="Avatar do Usuário">
+          <div>
+            <span class="user-name" id="user-name"> </span>
+            <span class="user-email" id="user-email"></span>
+          </div>
+        </div>
+        <button class="button" id="logout-button" style="display: none;">Sair</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Configuração do Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyDG8aRL5AtR1dhetKR98-o3tzacxUH9PZ8",
+      authDomain: "minecraft-5b0ce.firebaseapp.com",
+      projectId: "minecraft-5b0ce",
+      storageBucket: "minecraft-5b0ce.appspot.com",
+      messagingSenderId: "217153186475",
+      appId: "1:217153186475:web:393fd9c179cb25c090e5ee"
+    };
+
+    // Inicializando o Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    // Função para verificar o estado de autenticação
+    auth.onAuthStateChanged(async (user) => {
+      if (user) {
+        // Se o usuário estiver autenticado, exibir informações do usuário
+        document.getElementById("user-name").innerText = user.displayName || "Nome não disponível";
+        document.getElementById("user-email").innerText = user.email;
+
+        // Mostrar botão de logout
+        document.getElementById("logout-button").style.display = "inline-block";
+
+        // Verifica se o usuário é um administrador
+        const userDoc = await db.collection("users").doc(user.uid).get();
+        if (userDoc.exists && userDoc.data().isAdmin) {
+          document.getElementById("admin-links").style.display = "block"; // Exibe links de administração
+        }
+      } else {
+        // Se não estiver autenticado, redirecionar para a página de login
+        window.location.href = "login.html"; // Altere para o nome do seu arquivo de login
+      }
+    });
+
+    // Função para logout
+    document.getElementById("logout-button").onclick = () => {
+      auth.signOut().then(() => {
+        // Redirecionar para a página de login após o logout
+        window.location.href = "login.html"; // Altere para o nome do seu arquivo de login
+      });
+    };
+  </script>
+</body>
+</html>
